@@ -1,0 +1,52 @@
+.ct{
+	font-size: 35px;
+}
+
+@media screen and (max-width:500px) {
+	.ct {
+		font-size: 25px;
+	}
+}
+
+.footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #334157;
+	color: white;
+	height: 54px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 99;
+
+}
+
+.feature-cards{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+@media screen and (max-width: 766px) {
+	.mar-1{
+		margin-top: 15px;
+	}
+}
+
+a{
+	color: white;
+}
+
+.card-header{
+	transition: all 0.3s ease-in;
+}
+
+.card-header:hover {
+	transform:scale(1.02);
+	background-color: blue;
+}
+
+.banner {
+	height: 380px;
+}

@@ -1,0 +1,61 @@
+<div class="container  text-center mt-2 mb-5">
+	<div class="alert alert-info">
+		<i class="fas fa-file-alt"></i> Download Vaccination Certificate
+	</div>
+
+	<div class="card mt-3 text-center card-body">
+		<div>
+			<form (ngSubmit)="getOtp()" [formGroup]="firstFormGroup">
+		  		<mat-form-field>
+					  <mat-label>Enter Mob No</mat-label>
+					  <input type="text" formControlName="mobNo" name="mobNo" required matInput pattern="\d+">
+					  <mat-hint>Re-send otp after 3 min</mat-hint>
+					  	<mat-error *ngIf="firstFormGroupControl.mobNo.hasError('required') || firstFormGroupControl.mobNo.hasError('minlength') || firstFormGroupControl.mobNo.hasError('maxlength')">
+      							Enter valid mob no
+    					</mat-error>
+				</mat-form-field> 
+			    
+			    <div class="mt-3 float-right">
+		  			<button mat-raised-button color="preimary" type="submit" class="">Get Otp</button>
+		  		</div>
+			</form>
+		</div>
+		<div *ngIf="showCnfOtp">
+			<form (ngSubmit)="confirmOtp()" [formGroup]="secondFormGroup">
+		  		<mat-form-field>
+					  <mat-label>Enter Otp</mat-label>
+					  <input type="text" formControlName="otp" name="otp" required matInput pattern="\d+">
+					  	<mat-error *ngIf="secondFormGroupControl.otp.hasError('required') || secondFormGroupControl.otp.hasError('minlength') || secondFormGroupControl.otp.hasError('maxlength')">
+      							Enter valid Otp
+    					</mat-error>
+				</mat-form-field> 
+			    
+			    <div class="mt-3 float-right">
+		  			<button mat-raised-button color="priary" type="submit" class="">Confirm</button>
+		  		</div>
+			</form>
+		</div>
+		<div *ngIf="showRefId">
+			<form (ngSubmit)="downloadCert()" [formGroup]="thirdFormGroup">
+		  		<mat-form-field style="margin-left: 50px">
+					  <mat-label>Enter your Reference Id</mat-label>
+					  <input type="text" formControlName="refId" name="refId" required matInput pattern="\d+">
+					  	<mat-error *ngIf="thirdFormGroupControl.refId.hasError('required')">
+      							Enter valid Id
+    					</mat-error>
+				</mat-form-field> 
+			    
+			    <div class="mt-3 float-right">
+		  			<button mat-raised-button type="submit" *ngIf="!toggle_down">Get Certificate</button>
+		  			<a mat-raised-button [href]="hr" download="certificate.pdf" *ngIf="toggle_down">Download</a><br/>
+		  			<small *ngIf="toggle_down">Certificate Ready</small>
+		  		</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="mt-2">
+		<button mat-raised-button (click)="resetForm()" class="ml-2">Reset</button>
+	</div>
+	
+</div>

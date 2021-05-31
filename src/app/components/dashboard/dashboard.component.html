@@ -1,0 +1,182 @@
+<div class="container text-center mt-2 mb-5">
+	<div class="alert alert-info">
+		<i class="fas fa-search"></i> Check Vaccine Availability & Centers
+	</div>
+	<mat-horizontal-stepper linear #stepper style="margin-top: -15px" class="">
+		<mat-step [editable]="isEditable">
+			<ng-template matStepLabel>Choose Location</ng-template>
+        
+			<mat-tab-group animationDuration="500ms" class="pos-cent" mat-align-tabs="center">
+			  <mat-tab label="Search by Pin Code">
+			  	<div class="mt-5">
+				  	<form (ngSubmit)="searchByPin(stepper)" [formGroup]="secondFormGroup">
+				  	<div class="pin-form">
+				  		<div>
+				  		<mat-form-field>
+							  <mat-label>Enter Pin code</mat-label>
+							  <input type="text" formControlName="pincode" name="pincode" required matInput pattern="\d+">
+							  	<mat-error *ngIf="secondFormGroupControl.pincode.hasError('required') || secondFormGroupControl.pincode.hasError('minlength') || secondFormGroupControl.pincode.hasError('maxlength')">
+		      							Select valid pin code
+		    						  </mat-error>
+						</mat-form-field> 
+					    </div>
+					    <div class="mt-3 ml-2">
+				  			<button mat-raised-button color="primary" type="submit" class="">Search</button>
+				  		</div>
+				  	</div>
+				  	</form>
+			  </div>
+			  </mat-tab>
+			  <mat-tab label="Search by District">
+			  	<div class="container mt-5 mb-5">
+			  		<form (ngSubmit)="searchByDistrict(stepper)" [formGroup]="firstFormGroup">
+				  		<div class="form2">
+				  			<div>
+				  				<mat-form-field>
+									  <mat-label>Select State</mat-label>
+									  <mat-select formControlName="state" name="state" (selectionChange)="callDistricts()">
+									    <mat-option *ngFor="let st of stateList" value="{{st['state_id']}}">{{st['state_name']}}</mat-option>
+									 
+									  </mat-select>
+									  	<mat-error *ngIf="firstFormGroupControl.state.hasError('required')">
+		      							Select valid state
+		    						  </mat-error>
+								</mat-form-field>
+								<mat-form-field class="ml-2">
+									  <mat-label>Select District</mat-label>
+									  <mat-select formControlName="district" name="district">
+									    <mat-option *ngFor="let d of districtList" value="{{d['district_id']}}">{{d['district_name']}}</mat-option>
+									    
+									  </mat-select>
+									  <mat-error *ngIf="firstFormGroupControl.district.hasError('required')">
+		      							Select valid district
+		    						  </mat-error>
+								</mat-form-field>
+				  			</div>
+
+				  		
+				  			<div class="ml-2">
+				  			<button type="submit" mat-raised-button color="primary">Search</button>
+				  			</div>
+				  		</div>
+				  	</form>
+
+
+				 </div>
+			  </mat-tab>
+			</mat-tab-group>
+		</mat-step>
+		<mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
+			<ng-template matStepLabel>Choose Date</ng-template>
+			<div class="container mt-5 mb-5 text-center">
+				<form (ngSubmit)="finalSubmit(stepper)" [formGroup]="thirdFormGroup">
+
+					<mat-form-field>
+					  <mat-label>Choose a date</mat-label>
+					  <input formControlName="date" name="date" required matInput [matDatepicker]="datepicker">
+					  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+					  <mat-datepicker #datepicker>
+					    <mat-datepicker-actions>
+					      <button mat-button matDatepickerCancel>Cancel</button>
+					      <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+					    </mat-datepicker-actions>
+					  </mat-datepicker>
+					</mat-form-field>
+
+					<div class="mt-3">
+						<button mat-raised-button color="accent" matStepperPrevious>Back</button>
+				  		<button mat-raised-button color="primary" type="submit" class="ml-2">Proceed</button>
+				  	</div>
+				</form>
+			</div>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Vaccination Centers List</ng-template>
+			<div *ngIf="!centerList.length" class="alert alert-info">
+				No Centers Available
+			</div>
+			<div *ngIf="centerList.length" style="width: 100%">
+				<div class="text-center">
+				   <section class="example-section">
+				      <mat-checkbox class="example-margin" [(ngModel)]="eighteen_plus" [disabled]="dis1" (change)="filterCriteria()">18+</mat-checkbox>
+				      <mat-checkbox class="example-margin" [(ngModel)]="fortyfive_plus" [disabled]="dis2" (change)="filterCriteria()">45+</mat-checkbox>
+				      <mat-checkbox class="example-margin" [(ngModel)]="avl_status" (change)="filterCriteria()">Available</mat-checkbox>
+				    </section>
+
+				</div>
+			
+			<div class=" text-center mb-5 mt-2" *ngIf="filtercenterList.length" >
+				<div class="example-action-buttons">
+				  <button mat-raised-button (click)="accordion.openAll()">Show All</button>
+				  <button mat-raised-button (click)="accordion.closeAll()" class="ml-2">Hide All</button>
+				</div>
+				<div class="mt-2 scrollable">
+					<mat-accordion class="example-headers-align" multi>
+					  <mat-expansion-panel *ngFor="let center of filtercenterList">
+					    <mat-expansion-panel-header>
+					      <!--<mat-panel-title class="title-font">
+					       {{center['name']}}
+					      </mat-panel-title>-->
+					      <mat-panel-description>
+					      	<div  class="row">
+					      		<div class="col-md-4 col-12">
+						      		<div style="width: 200px"><span class="title-font" style="font-weight: bold;">{{center['name']}}</span></div>
+					      		</div>
+					      		<div class="col-md-1 col-12 cent-header">
+						      		<div style="width: 30px;height:25px;"><span class="" class="badge badge-info" style="font-weight: lighter;">{{center['min_age_limit']}}+</span>
+						      		</div>
+					      		</div>
+					      		<div class="col-md-2 col-12">
+					      			<div *ngIf="!center['available_capacity']" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-danger">Booked</span></div>
+					      			<div *ngIf="center['available_capacity']" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-success">Available</span></div>
+					      		</div>
+					      		<div class="col-md-3 col-12 cent-header">
+					      			<div style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-primary">{{center['vaccine']}}</span></div>
+					      		</div>
+					      		<div class="col-md-2 col-12 cent-header">
+					      			<div *ngIf="center['fee_type']==='Free'" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-success">{{center['fee_type']}}</span></div>
+					      			<div *ngIf="center['fee_type']==='Paid'" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-warning">{{center['fee_type']}}</span></div>
+					      		</div>
+					    	</div>
+					        
+					      </mat-panel-description>
+					    </mat-expansion-panel-header>
+					    <div class="cent-body1">
+					    	<div  class="cent-header-big">
+					      		
+					      		<div style="width: 30px;height:25px;"><span class="" class="badge badge-info" style="font-weight: lighter;">{{center['min_age_limit']}}+</span>
+					      		</div>
+					      	
+					      		
+				      			<div style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-primary">{{center['vaccine']}}</span></div>
+					      		
+					      	
+				      			<div *ngIf="center['fee_type']==='Free'" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-success">{{center['fee_type']}}</span></div>
+				      			<div *ngIf="center['fee_type']==='Paid'" style="width: 150px; height: 30px"><span style="font-weight: lighter;" class="badge badge-warning">{{center['fee_type']}}</span></div>
+					      	
+					    	</div>
+						    <div class="cent-body">	
+
+						    	<p><span><strong>Dose 1 : </strong>{{center['available_capacity_dose1']}}</span> <span class="ml-2"><strong>Dose 2 : </strong>{{center['available_capacity_dose2']}}</span> </p>
+						    	<p><strong>Address : </strong>{{center['name']}}, {{center['address']}}, {{center['district_name']}}, pin-{{center['pincode']}}</p>
+						     
+
+						    </div>
+						</div>
+					    
+
+					  </mat-expansion-panel>
+					</mat-accordion>
+				</div>
+			</div>
+		</div>
+		<div class="mt-2">
+			<button mat-raised-button color="accent" matStepperPrevious>Back</button>
+		  	<button mat-raised-button (click)="resetForm(stepper)" class="ml-2">Reset</button>
+		</div>
+		</mat-step>
+	</mat-horizontal-stepper>
+
+
+
+</div>

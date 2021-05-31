@@ -1,0 +1,114 @@
+.card2{
+	box-shadow: 0px 0px 5px #888888;
+}
+
+.cent-header-big {
+    display: none;
+  }
+
+.text-red{
+	color: red;
+}
+
+.mt-neg-5{
+	margin-top: -8px;
+}
+
+.pos-cent {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: left;
+}
+
+.text1{
+	font-size: 15px;
+	margin-top: 1px;
+	color: red;
+}
+
+.example-section {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.scrollable{
+  max-height:400px;
+  max-width: 85%;
+  margin:auto;
+  overflow: auto;
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px  0px gray;
+}
+
+.form2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .pin-form {
+    flex-direction: column;
+  }
+
+  .form2 {
+    flex-direction: column;
+  }
+
+}
+
+
+@media screen and (max-width: 766px){
+  .cent-header{
+    display: none;
+  }
+  .cent-header-big {
+    display: flex;
+    justify-content: space-between;
+
+  }
+  .title-font {
+    font-size: 10px;
+  }
+}
+
+
+.cent-body
+{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+}
+
+.pin-form {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+color:white;
+background-color: #8b52ff;
+border-radius: 3px;
+}
