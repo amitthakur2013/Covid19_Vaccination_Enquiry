@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   eighteen_plus=false;
   fortyfive_plus=false;
   avl_status=false;
+  free_status=false;
 
   constructor(private vaccineService:VaccineService,
   private _formBuilder: FormBuilder,
@@ -127,7 +128,7 @@ export class DashboardComponent implements OnInit {
   		this.vaccineService.getVaccinationCentersByDistrict(dt,this.firstFormGroup.value.district).subscribe(data => {
   			this.centerList=data.sessions;
   			this.filtercenterList=data.sessions;
-  			//console.log(this.centerList);
+  			console.log(this.centerList);
   		}, error => console.log(error));
 
   	}
@@ -147,7 +148,16 @@ export class DashboardComponent implements OnInit {
   dis2=false;
 
   filterCriteria() {
- 
+    if(this.eighteen_plus){
+    this.dis2=true;
+    } else {
+     this.dis2=false;
+    }
+    if(this.fortyfive_plus){
+    this.dis1=true;
+    } else{
+    this.dis1=false;
+    }
   } 
 
    

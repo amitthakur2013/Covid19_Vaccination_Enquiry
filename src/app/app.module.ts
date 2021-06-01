@@ -28,6 +28,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { CertificateComponent } from './components/certificate/certificate.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CenterSearchPipe } from './utilities/centerSearch.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     DashboardComponent,
     NavbarComponent,
     LoaderComponent,
-    CertificateComponent
+    CertificateComponent,
+    CenterSearchPipe
   ],
   imports: [
     BrowserModule,
