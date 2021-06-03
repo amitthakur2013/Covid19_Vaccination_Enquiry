@@ -6,7 +6,7 @@
 		<mat-step [editable]="isEditable">
 			<ng-template matStepLabel>Choose Location</ng-template>
         
-			<mat-tab-group animationDuration="500ms" class="pos-cent" mat-align-tabs="center">
+			<mat-tab-group animationDuration="500ms" class="pos-cent" mat-align-tabs="center" (selectedTabChange)="loadMap($event)">
 			  <mat-tab label="Search by Pin Code">
 			  	<div class="mt-5">
 				  	<form (ngSubmit)="searchByPin(stepper)" [formGroup]="secondFormGroup">
@@ -64,6 +64,18 @@
 
 				 </div>
 			  </mat-tab>
+
+			  <mat-tab label="Search by Map">
+			  	<div class="mt-5 text-center">
+			  	
+
+			  		Under Development... <div class="badge badge-warning">Beta</div>
+					<div id="map"></div>
+					<button class="mt-2" mat-raised-button color="primary" (click)="setLocation(stepper)">Submit Location</button>  
+			  	</div>
+			  </mat-tab>
+
+
 			</mat-tab-group>
 		</mat-step>
 		<mat-step [stepControl]="thirdFormGroup" [editable]="isEditable">
@@ -181,6 +193,9 @@
 		<div class="mt-2">
 			<button mat-raised-button color="accent" matStepperPrevious>Back</button>
 		  	<button mat-raised-button (click)="resetForm(stepper)" class="ml-2">Reset</button>
+		</div>
+		<div class="mt-1">
+			<small style="font-style: italic;"><b>Note:</b>The slots availability displayed in the search is provided by the state govt and private hospitals.</small>
 		</div>
 		</mat-step>
 	</mat-horizontal-stepper>

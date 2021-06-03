@@ -4,6 +4,7 @@ import {VaccineService} from '../../services/vaccine.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute,Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import LocationPicker from "location-picker";
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,8 @@ export class DashboardComponent implements OnInit {
   avl_status=false;
   free_status=false;
 
+  lp: LocationPicker;
+
   constructor(private vaccineService:VaccineService,
   private _formBuilder: FormBuilder,
   private router:Router
@@ -53,10 +56,40 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-  	
+
     this.callStates();
 
   }
+
+  
+
+  loadMap($event){
+  if($event.index === 2){
+
+    this.lp = new LocationPicker('map', {
+    setCurrentPosition: true, // You can omit this, defaults to true
+  }, {
+    zoom: 15 // You can set any google map options here, zoom defaults to 15
+  });
+  }
+    
+  }
+
+  setLocation(stepper) {
+    
+      console.log(this.lp.getMarkerPosition());
+      this.vaccineService.getVaccinationCentersByMap(this.lp.getMarkerPosition().lat,this.lp.getMarkerPosition().lng).subscribe(data=>{
+        if(data.centers.length){
+        this.secondFormGroup.patchValue({
+          pincode:data.centers[0].pincode
+          });
+          this.searchParam=1;
+          
+        }
+        stepper.next();
+        
+      },error => console.log(error));
+   }
 
   get secondFormGroupControl() {
     return this.secondFormGroup.controls;

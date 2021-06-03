@@ -25,6 +25,10 @@ export class VaccineService {
     return this.http.get(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${pin}&date=${date}`);
   }
 
+  getVaccinationCentersByMap(lat:any,lng:any): Observable<any> {
+    return this.http.get(`https://cdn-api.co-vin.in/api/v2/appointment/centers/public/findByLatLong?lat=${lat}&long=${lng}`);
+  }
+
   getOtp(mob:any): Observable<any> {
     return this.http.post(`https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP`, mob);
   }
